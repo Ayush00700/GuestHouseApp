@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/admins.dart';
-import 'package:guesthouseapp/widgets/admin_list.dart';
 
 class DashBoardScreen extends StatelessWidget {
-  Admin currentAdmin;
-  DashBoardScreen();
+  final Admin currentAdmin;
+  DashBoardScreen(this.currentAdmin);
   @override
   Widget build(BuildContext context) {
-    currentAdmin = AdminBuilder.currentAdmin;
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -42,9 +40,7 @@ class DashBoardScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 10.0),
                 Icon(
                   Icons.account_circle,
                   size: 80.0,
@@ -59,7 +55,7 @@ class DashBoardScreen extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1.0,
-                      fontSize: 40.0),
+                      fontSize: 35.0),
                 ),
               ],
             ),
