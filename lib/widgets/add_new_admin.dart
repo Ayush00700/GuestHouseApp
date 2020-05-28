@@ -50,9 +50,9 @@ class _AddNewAdminState extends State<AddNewAdmin> {
           RaisedButton(
               color: Theme.of(context).accentColor,
               onPressed: () {
-                Firestore.instance
-                    .collection('admins')
-                    .add({'name': name, 'createdAt': DateTime.now()});
+                DocumentReference reference = Firestore.instance
+                    .document("admins/" + DateTime.now().toString());
+                reference.setData({'name': name});
                 // widget.newAdminCallback(name);   //Uplifting of State
                 Navigator.pop(context);
               },

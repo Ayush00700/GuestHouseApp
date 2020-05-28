@@ -1,0 +1,20 @@
+String uniqueCode = //Your Unique Code
+DocumentReference reference = Firestore.instance.document("test/" + uniqueCode );
+
+//Setting Data
+Map<String, String> yourData;
+reference.setData(yourData);
+
+                    // print(NewAccount.newUser.name);
+                    // print(NewAccount.newUser.addressL1);
+                    // print(NewAccount.newUser.addressL2);
+                    // print(NewAccount.newUser.mobileNo);
+                    // print(NewAccount.newUser.mobileNoName);
+                    // print(NewAccount.newUser.mobileNoAlt);
+                    // print(NewAccount.newUser.mobileNoAltName);
+                    // print(NewAccount.newUser.fromDate.toString());
+                    // print(NewAccount.newUser.toDate.toString());
+                    // print(NewAccount.newUser.remarks);
+                    // print(NewAccount.newUser.price);
+                    // print(NewAccount.newUser.rebate);
+                    // print(NewAccount.newUser.finalPrice);

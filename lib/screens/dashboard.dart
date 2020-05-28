@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/admins.dart';
+import 'package:guesthouseapp/screens/new_account.dart';
 
 class DashBoardScreen extends StatelessWidget {
   final Admin currentAdmin;
@@ -81,7 +82,14 @@ class DashBoardScreen extends StatelessWidget {
                     ),
                     contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                     onTap: () {
-                      Navigator.pushNamed(context, '/newacc');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return NewAccount(currentAdmin);
+                          },
+                        ),
+                      );
                     },
                   ),
                   ListTile(

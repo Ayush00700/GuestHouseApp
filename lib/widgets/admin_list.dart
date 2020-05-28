@@ -4,7 +4,6 @@ import 'package:guesthouseapp/models/admins.dart';
 import 'package:guesthouseapp/screens/dashboard.dart';
 
 class AdminBuilder extends StatefulWidget {
-  static Admin currentAdmin;
   @override
   _AdminBuilderState createState() => _AdminBuilderState();
 }
@@ -14,15 +13,12 @@ class _AdminBuilderState extends State<AdminBuilder> {
   List<Admin> admins = [];
 
   void getUser() async {
-    await for (var snapshot
-        in _firestore.collection('admins').orderBy('createdAt').snapshots()) {
+    await for (var snapshot in _firestore.collection('admins').snapshots()) {
       admins = [];
       for (var message in snapshot.documents) {
         if (message.data['name'] != null)
           setState(() {
-            admins.add(Admin(
-                name: message.data['name'],
-                createdAt: message.data['createdAt'].toDate()));
+            admins.add(Admin(name: message.data['name']));
           });
       }
     }
@@ -59,9 +55,8 @@ class _AdminBuilderState extends State<AdminBuilder> {
               ),
             ),
             onTap: () {
-              AdminBuilder.currentAdmin = admins[index];
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return DashBoardScreen(AdminBuilder.currentAdmin);
+                return DashBoardScreen(admins[index]);
               }));
             },
             trailing: Icon(

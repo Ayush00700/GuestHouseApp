@@ -3,8 +3,8 @@ import 'package:guesthouseapp/screens/new_account.dart';
 import 'floor.dart';
 
 class FloorData extends ChangeNotifier {
-  String rebate = '';
-  String price = '';
+  String rebate = '0';
+  String price = '0';
   Floor floor1 = new Floor(
     name: '1st Floor',
     basePrice: 20000,
@@ -113,9 +113,13 @@ class FloorData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void buildfloors() {
-    NewAccount.newUser.floors[0] = floor1;
-    NewAccount.newUser.floors[1] = floor2;
-    NewAccount.newUser.floors[2] = floor4;
-  }
+  // void buildfloors() {
+  //   NewAccount.newUser.floors[0] = floor1;
+  //   NewAccount.newUser.floors[1] = floor2;
+  //   NewAccount.newUser.floors[2] = floor4;
+  //   NewAccount.newUser.price =
+  //       (floor1.finalPrice + floor2.finalPrice + floor4.finalPrice).toString();
+  //   NewAccount.newUser.rebate = rebate;
+  //   NewAccount.newUser.finalPrice = 'defined';
+  // }
 }

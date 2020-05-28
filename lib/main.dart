@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:guesthouseapp/screens/new_account.dart';
 import 'package:guesthouseapp/screens/welcome_screen.dart';
 
 // import 'package:guesthouseapp/screens/newUser.dart';
@@ -20,7 +19,6 @@ class SelectUser extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => WelcomeScreen(),
-        '/newacc': (context) => NewAccount(),
         // '/newUserScreen': (context) => NewUser()
       },
     );

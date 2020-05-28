@@ -24,7 +24,7 @@ class _MobileNoRowState extends State<MobileNoRow> {
             flex: 3,
             child: TextField(
               textAlign: TextAlign.center,
-              decoration: InputDecoration(hintText: 'Name'),
+              decoration: InputDecoration(hintText: 'Name/Relation'),
               onChanged: (value) {
                 setState(() {
                   if (hint == 'Mobile No')

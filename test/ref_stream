@@ -1,9 +1,4 @@
 // import 'package:flutter/material.dart';
-import 'package:guesthouseapp/models/users.dart';
-
-class Data {
-  List<User> users;
-
   // void getUsers() {
   //   StreamBuilder<QuerySnapshot>(
   //     stream: _firestore.collection('admins').snapshots(),

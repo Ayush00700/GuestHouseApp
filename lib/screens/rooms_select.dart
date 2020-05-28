@@ -3,20 +3,23 @@ import 'package:guesthouseapp/screens/new_account.dart';
 import 'package:guesthouseapp/widgets/floor_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:guesthouseapp/models/floor_data.dart';
-import 'package:guesthouseapp/models/data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoomSelection extends StatelessWidget {
+  final globalKey = GlobalKey<ScaffoldState>();
+  final _firestore = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => FloorData(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Select Rooms'),
-          leading: Icon(Icons.rv_hookup),
-        ),
-        body: Consumer<FloorData>(builder: (context, floorData, child) {
-          return Column(
+      child: Consumer<FloorData>(builder: (context, floorData, child) {
+        return Scaffold(
+          key: globalKey,
+          appBar: AppBar(
+            title: Text('Select Rooms'),
+            leading: Icon(Icons.rv_hookup),
+          ),
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
@@ -51,11 +54,11 @@ class RoomSelection extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
                               try {
-                                int a = int.parse(value);
-                                print(a);
+                                int.parse(value);
                                 floorData.setRebate(value);
                               } catch (e) {
-                                Scaffold.of(context).showSnackBar(
+                                print(e);
+                                globalKey.currentState.showSnackBar(
                                   SnackBar(
                                       content: Container(
                                           height: 80.0,
@@ -90,10 +93,7 @@ class RoomSelection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text('Discount: '),
-                          if (floorData.rebate != '')
-                            Text('₹ ' + floorData.rebate)
-                          else
-                            Text('₹ 0')
+                          Text('₹ ' + floorData.rebate)
                         ]),
                   ),
                   Padding(
@@ -127,63 +127,111 @@ class RoomSelection extends StatelessWidget {
                 ],
               ),
             ],
-          );
-        }),
-        bottomSheet: Container(
-          height: 70.0,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, -1),
-                blurRadius: 6.0,
-              ),
-            ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              GestureDetector(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    'BACK',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0,
+          bottomSheet: Container(
+            height: 70.0,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, -1),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      'BACK',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                      ),
                     ),
                   ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              GestureDetector(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 30.0),
-                  child: Text(
-                    'PAY',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0,
+                GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 30.0),
+                    child: Text(
+                      'PAY',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                      ),
                     ),
                   ),
+                  onTap: () async {
+                    // CircularProgressIndicator(
+                    //   backgroundColor: Theme.of(context).accentColor,
+                    // );
+                    NewAccount.newUser.floors[0] = floorData.floor1;
+                    NewAccount.newUser.floors[1] = floorData.floor2;
+                    NewAccount.newUser.floors[2] = floorData.floor4;
+                    NewAccount.newUser.price = (floorData.floor1.finalPrice +
+                            floorData.floor2.finalPrice +
+                            floorData.floor4.finalPrice)
+                        .toString();
+                    NewAccount.newUser.rebate = floorData.rebate;
+                    NewAccount.newUser.finalPrice =
+                        (int.parse(NewAccount.newUser.price) -
+                                int.parse(NewAccount.newUser.rebate))
+                            .toString();
+                    DocumentReference userReference = _firestore.document(
+                        'users/' + NewAccount.newUser.fromDate.toString());
+                    List<DocumentReference> floorReferences = [];
+                    for (int i = 0; i < NewAccount.newUser.floors.length; i++) {
+                      floorReferences.add(_firestore.document('floors/' +
+                          NewAccount.newUser.fromDate.toString() +
+                          NewAccount.newUser.floors[i].name));
+                    }
+                    await userReference.setData({
+                      'name': NewAccount.newUser.name,
+                      'addressl1': NewAccount.newUser.addressL1,
+                      'addressl2': NewAccount.newUser.addressL2,
+                      'mobileNo': NewAccount.newUser.mobileNo,
+                      'mobileNoAlt': NewAccount.newUser.mobileNoAlt,
+                      'mobileNoName': NewAccount.newUser.mobileNoName,
+                      'mobileNoAltName': NewAccount.newUser.mobileNoAltName,
+                      'fromDate': NewAccount.newUser.fromDate,
+                      'toDate': NewAccount.newUser.toDate,
+                      'remarks': NewAccount.newUser.remarks,
+                      'price': NewAccount.newUser.price,
+                      'rebate': NewAccount.newUser.rebate,
+                      'finalPrice': NewAccount.newUser.finalPrice,
+                      'createdBy': NewAccount.newUser.addedBy.name,
+                      'floors': floorReferences,
+                    });
+                    for (int i = 0; i < NewAccount.newUser.floors.length; i++) {
+                      await floorReferences[i].setData({
+                        'name': NewAccount.newUser.floors[i].name,
+                        'basePrice': NewAccount.newUser.floors[i].basePrice,
+                        'finalPrice': NewAccount.newUser.floors[i].finalPrice,
+                        'selectedDates':
+                            NewAccount.newUser.floors[i].selectedDates,
+                        'isSelected': NewAccount.newUser.floors[i].isSelected,
+                      });
+                    }
+                  },
                 ),
-                onTap: () {
-                  FloorData().buildfloors();
-                  Data().users.add(NewAccount.newUser);
-                },
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
