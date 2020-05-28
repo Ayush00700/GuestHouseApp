@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+
 class Admin {
   String name;
-  Admin({this.name});
+  DateTime createdAt;
+  Admin({this.name, @required this.createdAt});
 }

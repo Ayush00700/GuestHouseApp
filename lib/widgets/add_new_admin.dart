@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddNewAdmin extends StatefulWidget {
-  final Function newAdminCallback;
-  AddNewAdmin({this.newAdminCallback});
+  // final Function newAdminCallback;
+  // AddNewAdmin({this.newAdminCallback});//Uplifting state
   @override
   _AddNewAdminState createState() => _AddNewAdminState();
 }
@@ -42,7 +43,6 @@ class _AddNewAdminState extends State<AddNewAdmin> {
                   hintText: 'Username',
                 ),
                 onChanged: (value) {
-                  setState(() {});
                   name = value;
                 }),
           ),
@@ -50,7 +50,10 @@ class _AddNewAdminState extends State<AddNewAdmin> {
           RaisedButton(
               color: Theme.of(context).accentColor,
               onPressed: () {
-                widget.newAdminCallback(name);
+                Firestore.instance
+                    .collection('admins')
+                    .add({'name': name, 'createdAt': DateTime.now()});
+                // widget.newAdminCallback(name);   //Uplifting of State
                 Navigator.pop(context);
               },
               child: Text(
