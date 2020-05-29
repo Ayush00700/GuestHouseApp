@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/admins.dart';
 import 'package:guesthouseapp/screens/dashboard.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'on_press_delete.dart';
 
 class AdminBuilder extends StatefulWidget {
   @override
@@ -11,48 +12,7 @@ class AdminBuilder extends StatefulWidget {
 
 class _AdminBuilderState extends State<AdminBuilder> {
   bool _showSpinner = false;
-
   final _firestore = Firestore.instance;
-
-  void _showDialogBox(BuildContext context, String id) async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Theme.of(context).primaryColor,
-            content: Text('Are you sure you want to Delete this Admin?'),
-            title: Text(
-              'Delete Admin',
-              style: TextStyle(color: Theme.of(context).accentColor),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('No'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                onPressed: () {
-                  setState(() {
-                    _showSpinner = true;
-                  });
-                  deleteAdmin(id);
-                  setState(() {
-                    _showSpinner = false;
-                  });
-                  Navigator.pop(context);
-                },
-                child: Text('Yes'),
-              ),
-            ],
-          );
-        });
-  }
-
-  void deleteAdmin(String id) async {
-    await _firestore.collection('admins').document(id).delete();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +57,26 @@ class _AdminBuilderState extends State<AdminBuilder> {
                       ),
                     ),
                     onTap: () {
+                      //TODO Make pushUntilRemoved
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return DashBoardScreen(admins[index]);
                       }));
                     },
-                    onLongPress: () => _showDialogBox(context, adminId[index]),
+                    onLongPress: () =>
+                        DeleteFunction('Admin', (String id) async {
+                      await _firestore
+                          .collection('admins')
+                          .document(id)
+                          .delete();
+                    }, (bool spin) {
+                      setState(() {
+                        _showSpinner = spin;
+                      });
+                    }).showDialogBox(
+                      context,
+                      adminId[index],
+                    ),
                     trailing: Icon(
                       Icons.navigate_next,
                       color: Theme.of(context).accentColor,

@@ -48,21 +48,11 @@ class UserDetails extends StatelessWidget {
                   ],
                 ),
                 if ((currentUser.floors[0].isSelected))
-                  DatesDisplay(
-                      currentUser,
-                      Icon(
-                        Icons.looks_one,
-                      ),
-                      0),
+                  DatesDisplay(currentUser, Icons.looks_one, 0),
                 if ((currentUser.floors[1].isSelected))
-                  DatesDisplay(
-                      currentUser,
-                      Icon(
-                        Icons.looks_two,
-                      ),
-                      1),
+                  DatesDisplay(currentUser, Icons.looks_two, 1),
                 if ((currentUser.floors[2].isSelected))
-                  DatesDisplay(currentUser, Icon(Icons.looks_3), 2),
+                  DatesDisplay(currentUser, Icons.looks_4, 2),
                 Text(
                   'Added By: ' + currentUser.addedBy.name,
                   style: TextStyle(fontWeight: FontWeight.w100, fontSize: 10.0),

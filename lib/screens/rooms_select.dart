@@ -250,12 +250,14 @@ class _RoomSelectionState extends State<RoomSelection> {
                       setState(() {
                         _showSpinner = false;
                       });
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
+                            //Remember
                             builder: (context) =>
                                 DashBoardScreen(NewAccount.newUser.addedBy),
-                          ));
+                          ),
+                          (e) => false);
                     },
                   ),
                 ],

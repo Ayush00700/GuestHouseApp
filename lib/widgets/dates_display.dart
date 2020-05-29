@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/users.dart';
+import 'package:guesthouseapp/widgets/floor_chip.dart';
 
 class DatesDisplay extends StatelessWidget {
   final User currentUser;
-  final Icon avater;
+  final IconData avater;
   final int indexed;
   DatesDisplay(this.currentUser, this.avater, this.indexed);
   @override
@@ -12,11 +13,7 @@ class DatesDisplay extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Chip(
-            label: Text('Floor'),
-            avatar: avater,
-            backgroundColor: Theme.of(context).canvasColor,
-          ),
+          FloorChip(avater, 'Floor', Theme.of(context).accentColor),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
