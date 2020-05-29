@@ -10,9 +10,15 @@ class CurrentBookingScreen extends StatelessWidget {
   final Admin _currentAdmin;
   final _firestore = Firestore.instance;
   final List<User> userList = [];
-  List<UserCard> userCard = [];
-  List<String> userId = [];
   CurrentBookingScreen(this._currentAdmin);
+
+  List<bool> selectedDatesofFloors(List dates) {
+    List<bool> selectedDates = List();
+    for (var date in dates) {
+      if (date != null) selectedDates.add(date);
+    }
+    return selectedDates;
+  }
 
   void getFloors(User addUser, List<DocumentSnapshot> floors, String userID) {
     for (DocumentSnapshot floor in floors) {
@@ -22,7 +28,7 @@ class CurrentBookingScreen extends StatelessWidget {
           basePrice: floor.data['basePrice'],
           finalPrice: floor.data['finalPrice'],
           isSelected: floor.data['isSelected'],
-          // selectedDates: floor.data['selectedDates'],
+          selectedDates: selectedDatesofFloors(floor.data['selectedDates']),
         );
         addUser.floors[0] = newFloor;
       }
@@ -32,7 +38,7 @@ class CurrentBookingScreen extends StatelessWidget {
           basePrice: floor.data['basePrice'],
           finalPrice: floor.data['finalPrice'],
           isSelected: floor.data['isSelected'],
-          // selectedDates: floor.data['selectedDates'],
+          selectedDates: selectedDatesofFloors(floor.data['selectedDates']),
         );
         addUser.floors[1] = newFloor;
       }
@@ -42,7 +48,7 @@ class CurrentBookingScreen extends StatelessWidget {
           basePrice: floor.data['basePrice'],
           finalPrice: floor.data['finalPrice'],
           isSelected: floor.data['isSelected'],
-          // selectedDates: floor.data['selectedDates'],
+          selectedDates: selectedDatesofFloors(floor.data['selectedDates']),
         );
         addUser.floors[2] = newFloor;
       }
@@ -68,6 +74,8 @@ class CurrentBookingScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('users').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          List<UserCard> userCard = [];
+          List<String> userId = [];
           if (!snapshot.hasData) {
             return Center(
                 child: CircularProgressIndicator(
@@ -105,8 +113,7 @@ class CurrentBookingScreen extends StatelessWidget {
                 }
                 final floors = snapshot.data.documents;
                 for (int index = 0; index < userId.length; index++) {
-                  getFloors(
-                      userList[index], snapshot.data.documents, userId[index]);
+                  getFloors(userList[index], floors, userId[index]);
                   userCard.add(UserCard(userList[index]));
                 }
                 return ListView(children: userCard);
