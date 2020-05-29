@@ -1,8 +1,8 @@
 class Floor {
-  String name;
-  int basePrice;
-  List<bool> selectedDates;
-  int finalPrice;
+  String name = '';
+  int basePrice = 0;
+  List<bool> selectedDates = new List()..add(false);
+  int finalPrice = 0;
   bool isSelected;
   Floor(
       {this.name,

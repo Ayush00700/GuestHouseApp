@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "481648378415",
+    "firebase_url": "https://guesthouseapp-bc22e.firebaseio.com",
+    "project_id": "guesthouseapp-bc22e",
+    "storage_bucket": "guesthouseapp-bc22e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481648378415:android:79ae8207decd3888ed3cda",
+        "android_client_info": {
+          "package_name": "bitspilani.guesthouseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481648378415-rl983gbika0n6ldk2crrk2pr62v5k9dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApAcaCWquOZNxdpvxTgnqf2sLUAp3nYcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481648378415-rl983gbika0n6ldk2crrk2pr62v5k9dc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

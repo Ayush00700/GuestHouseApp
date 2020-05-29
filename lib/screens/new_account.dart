@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:guesthouseapp/models/admins.dart';
 import 'package:guesthouseapp/screens/rooms_select.dart';
-import 'package:guesthouseapp/widgets/admin_list.dart';
 import 'package:guesthouseapp/widgets/mobile_no.dart';
 import 'package:intl/intl.dart';
 import 'package:guesthouseapp/models/users.dart';
 
 class NewAccount extends StatefulWidget {
+  final Admin _currentAdmin;
   static Duration dateDifference;
   static User newUser = new User();
+  NewAccount(this._currentAdmin);
   @override
   _NewAccountState createState() => _NewAccountState();
 }
@@ -47,7 +49,7 @@ class _NewAccountState extends State<NewAccount> {
   @override
   void initState() {
     super.initState();
-    NewAccount.newUser.addedBy = AdminBuilder.currentAdmin;
+    NewAccount.newUser.addedBy = widget._currentAdmin;
     _scrollController = ScrollController(initialScrollOffset: 0);
   }
 
@@ -164,7 +166,6 @@ class _NewAccountState extends State<NewAccount> {
                               ),
                               onTap: () {
                                 _selectDate(context, 'from');
-                                print(_selectedFromDate);
                               },
                             ),
                             IconButton(
@@ -223,7 +224,6 @@ class _NewAccountState extends State<NewAccount> {
                               ),
                               onTap: () {
                                 _selectDate(context, 'to');
-                                print(_selectedToDate);
                               },
                             ),
                             IconButton(
