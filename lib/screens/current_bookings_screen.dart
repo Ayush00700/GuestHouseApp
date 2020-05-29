@@ -11,7 +11,7 @@ class CurrentBookingScreen extends StatelessWidget {
   final _firestore = Firestore.instance;
   final List<User> userList = [];
   List<UserCard> userCard = [];
-
+  List<String> userId = [];
   CurrentBookingScreen(this._currentAdmin);
 
   void getFloors(User addUser, List<DocumentSnapshot> floors, String userID) {
@@ -91,24 +91,29 @@ class CurrentBookingScreen extends StatelessWidget {
             addUser.rebate = user.data['rebate'];
             addUser.finalPrice = user.data['finalPrice'];
             addUser.addedBy = Admin(name: user.data['createdBy']);
-            return StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('floors').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
-                    ));
-                  }
-                  getFloors(addUser, snapshot.data.documents, user.documentID);
-                  userList.add(addUser);
-                  userCard.add(UserCard(addUser));
-                  return ListView(children: userCard);
-                });
-            // getFloors(addUser, user);
-            // userList.add(addUser);
-            // userCard.add(UserCard(addUser));
+            userList.add(addUser);
+            userId.add(user.documentID);
           }
+          return StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('floors').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ));
+                }
+                final floors = snapshot.data.documents;
+                for (int index = 0; index < userId.length; index++) {
+                  getFloors(
+                      userList[index], snapshot.data.documents, userId[index]);
+                  userCard.add(UserCard(userList[index]));
+                }
+                return ListView(children: userCard);
+              });
+          // getFloors(addUser, user);
+          // userList.add(addUser);
+          // userCard.add(UserCard(addUser));
           // userList.add(addUser);
         },
       ),
