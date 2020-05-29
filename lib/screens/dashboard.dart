@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/admins.dart';
 import 'package:guesthouseapp/screens/new_account.dart';
+import 'package:guesthouseapp/screens/current_bookings_screen.dart';
 
 class DashBoardScreen extends StatelessWidget {
   final Admin currentAdmin;
@@ -13,8 +14,7 @@ class DashBoardScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              // gradient: LinearGradient(colors: [Colors.black, Colors.teal]),
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(80.0),
               ),
@@ -108,7 +108,16 @@ class DashBoardScreen extends StatelessWidget {
                       color: Theme.of(context).accentColor,
                     ),
                     contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CurrentBookingScreen(currentAdmin);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ],
               ))

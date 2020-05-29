@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guesthouseapp/screens/dashboard.dart';
 import 'package:guesthouseapp/screens/new_account.dart';
 import 'package:guesthouseapp/widgets/floor_builder.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RoomSelection extends StatelessWidget {
   final globalKey = GlobalKey<ScaffoldState>();
   final _firestore = Firestore.instance;
+  // List<bool> falseDate() {
+  //   List<bool> dummy;
+  //   for (int i = 0; i < NewAccount.dateDifference.inDays + 1; i++) {
+  //     dummy.add(false);
+  //   }
+  //   return dummy;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -175,9 +184,9 @@ class RoomSelection extends StatelessWidget {
                     ),
                   ),
                   onTap: () async {
-                    // CircularProgressIndicator(
-                    //   backgroundColor: Theme.of(context).accentColor,
-                    // );
+                    CircularProgressIndicator(
+                      backgroundColor: Theme.of(context).accentColor,
+                    );
                     NewAccount.newUser.floors[0] = floorData.floor1;
                     NewAccount.newUser.floors[1] = floorData.floor2;
                     NewAccount.newUser.floors[2] = floorData.floor4;
@@ -222,9 +231,16 @@ class RoomSelection extends StatelessWidget {
                         'finalPrice': NewAccount.newUser.floors[i].finalPrice,
                         'selectedDates':
                             NewAccount.newUser.floors[i].selectedDates,
+                        // : falseDate()),
                         'isSelected': NewAccount.newUser.floors[i].isSelected,
                       });
                     }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DashBoardScreen(NewAccount.newUser.addedBy),
+                        ));
                   },
                 ),
               ],

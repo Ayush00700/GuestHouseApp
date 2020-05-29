@@ -11,7 +11,7 @@ class SelectUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark().copyWith(accentColor: Colors.teal),
+      darkTheme: ThemeData.dark().copyWith(accentColor: Colors.green),
       theme: ThemeData(
         accentColor: Colors.deepPurpleAccent,
         primaryColor: Colors.deepPurpleAccent,

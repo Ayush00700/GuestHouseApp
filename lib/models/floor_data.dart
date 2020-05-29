@@ -9,14 +9,16 @@ class FloorData extends ChangeNotifier {
     name: '1st Floor',
     basePrice: 20000,
     finalPrice: 0,
-    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1),
+    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1)
+      ..setAll(0, falseInit()),
     isSelected: false,
   );
   Floor floor2 = new Floor(
     name: '2nd Floor',
     basePrice: 20000,
     finalPrice: 0,
-    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1),
+    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1)
+      ..setAll(0, falseInit()),
     isSelected: false,
   );
   Floor floor4 = new Floor(
@@ -24,8 +26,17 @@ class FloorData extends ChangeNotifier {
     basePrice: 10000,
     finalPrice: 0,
     isSelected: false,
-    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1),
+    selectedDates: new List<bool>(NewAccount.dateDifference.inDays + 1)
+      ..setAll(0, falseInit()),
   );
+
+  static List<bool> falseInit() {
+    List<bool> dummy = List();
+    for (int i = 0; i < NewAccount.dateDifference.inDays + 1; i++) {
+      dummy.add(false);
+    }
+    return dummy;
+  }
 
   void setRebate(String rebateValue) {
     rebate = rebateValue;

@@ -38,8 +38,9 @@ class _AdminBuilderState extends State<AdminBuilder> {
       // itemCount: Provider.of<Data>(context).admins.length,
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       itemBuilder: (context, index) => Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(5.0),
         child: Card(
+          color: Theme.of(context).primaryColor,
           elevation: 5.0,
           child: ListTile(
             title: Text(
