@@ -14,45 +14,38 @@ class CurrentBookingScreen extends StatelessWidget {
 
   CurrentBookingScreen(this._currentAdmin);
 
-  void getDetails(List<DocumentSnapshot> users) {
-    for (DocumentSnapshot user in users) {
-      User addUser = User();
-      addUser.name = user.data['name'];
-      addUser.addressL1 = user.data['addressl1'];
-      addUser.addressL2 = user.data['addressl2'];
-      addUser.mobileNo = user.data['mobileNo'];
-      addUser.mobileNoName = user.data['mobileNoName'];
-      addUser.mobileNoAlt = user.data['mobileNoAlt'];
-      addUser.mobileNoAltName = user.data['mobileNoAltName'];
-      addUser.fromDate = user.data['fromDate'].toDate();
-      addUser.toDate = user.data['toDate'].toDate();
-      addUser.remarks = user.data['remarks'];
-      addUser.price = user.data['price'];
-      addUser.rebate = user.data['rebate'];
-      addUser.finalPrice = user.data['finalPrice'];
-      addUser.addedBy = Admin(name: user.data['createdBy']);
-      getFloors(addUser, user);
-      userList.add(addUser);
-      userCard.add(UserCard(addUser));
-    }
-  }
-
-  void getFloors(addUser, user) async {
-    for (int j = 0; j < 3; j++) {
-      DocumentReference floora = user.data['floors'][j];
-      DocumentSnapshot floor = await floora.get();
-      Floor newFloor = Floor(
+  void getFloors(User addUser, List<DocumentSnapshot> floors, String userID) {
+    for (DocumentSnapshot floor in floors) {
+      if (floor.documentID == userID + '1st Floor') {
+        Floor newFloor = Floor(
           name: floor.data['name'],
           basePrice: floor.data['basePrice'],
           finalPrice: floor.data['finalPrice'],
           isSelected: floor.data['isSelected'],
-          selectedDates: new List<bool>(floor.data['selectedDates'].length));
-      List selectedDates = floor.data['selectedDates'];
-      int c = 0;
-      for (var selectDates in selectedDates) {
-        newFloor.selectedDates[c++] = selectDates;
+          // selectedDates: floor.data['selectedDates'],
+        );
+        addUser.floors[0] = newFloor;
       }
-      addUser.floors[j] = newFloor;
+      if (floor.documentID == userID + '2nd Floor') {
+        Floor newFloor = Floor(
+          name: floor.data['name'],
+          basePrice: floor.data['basePrice'],
+          finalPrice: floor.data['finalPrice'],
+          isSelected: floor.data['isSelected'],
+          // selectedDates: floor.data['selectedDates'],
+        );
+        addUser.floors[1] = newFloor;
+      }
+      if (floor.documentID == userID + '4th Floor') {
+        Floor newFloor = Floor(
+          name: floor.data['name'],
+          basePrice: floor.data['basePrice'],
+          finalPrice: floor.data['finalPrice'],
+          isSelected: floor.data['isSelected'],
+          // selectedDates: floor.data['selectedDates'],
+        );
+        addUser.floors[2] = newFloor;
+      }
     }
   }
 
@@ -82,9 +75,41 @@ class CurrentBookingScreen extends StatelessWidget {
             ));
           }
           final users = snapshot.data.documents;
-          getDetails(users);
+          for (DocumentSnapshot user in users) {
+            User addUser = User();
+            addUser.name = user.data['name'];
+            addUser.addressL1 = user.data['addressl1'];
+            addUser.addressL2 = user.data['addressl2'];
+            addUser.mobileNo = user.data['mobileNo'];
+            addUser.mobileNoName = user.data['mobileNoName'];
+            addUser.mobileNoAlt = user.data['mobileNoAlt'];
+            addUser.mobileNoAltName = user.data['mobileNoAltName'];
+            addUser.fromDate = user.data['fromDate'].toDate();
+            addUser.toDate = user.data['toDate'].toDate();
+            addUser.remarks = user.data['remarks'];
+            addUser.price = user.data['price'];
+            addUser.rebate = user.data['rebate'];
+            addUser.finalPrice = user.data['finalPrice'];
+            addUser.addedBy = Admin(name: user.data['createdBy']);
+            return StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('floors').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ));
+                  }
+                  getFloors(addUser, snapshot.data.documents, user.documentID);
+                  userList.add(addUser);
+                  userCard.add(UserCard(addUser));
+                  return ListView(children: userCard);
+                });
+            // getFloors(addUser, user);
+            // userList.add(addUser);
+            // userCard.add(UserCard(addUser));
+          }
           // userList.add(addUser);
-          return ListView(children: userCard);
         },
       ),
     );
