@@ -68,7 +68,7 @@ class UserCard extends StatelessWidget {
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
                               TextSpan(
-                                  text: addUser.finalPrice,
+                                  text: '₹ ' + addUser.finalPrice,
                                   style: TextStyle(color: Colors.green))
                             ]))
                             // 'Due Amount: ' + addUser.finalPrice,

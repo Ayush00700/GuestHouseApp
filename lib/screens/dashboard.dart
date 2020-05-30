@@ -28,13 +28,13 @@ class DashBoardScreen extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       Icons.dashboard,
-                      color: Colors.white,
+                      color: Theme.of(context).accentColor,
                     ),
                     SizedBox(width: 10.0),
                     Text(
                       'DASHBOARD',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).accentColor,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.0,
                           fontSize: 40.0),
@@ -45,7 +45,7 @@ class DashBoardScreen extends StatelessWidget {
                 Icon(
                   Icons.account_circle,
                   size: 80.0,
-                  color: Colors.white,
+                  color: Theme.of(context).secondaryHeaderColor,
                 ),
                 // SizedBox(
                 //   height: MediaQuery.of(context).size.height / 10,
@@ -53,7 +53,7 @@ class DashBoardScreen extends StatelessWidget {
                 Text(
                   'Welcome ${currentAdmin.name}',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).accentColor,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1.0,
                       fontSize: 35.0),

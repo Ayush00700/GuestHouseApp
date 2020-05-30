@@ -173,6 +173,14 @@ class _AddNewPaymentState extends State<AddNewPayment> {
                     'paymentMode': (_chequeSelected) ? 'Cheque' : 'Cash',
                     'paidOn': paidOn
                   });
+                  Firestore.instance
+                      .collection('users')
+                      .document(widget.currentUser.fromDate.toString())
+                      .updateData({
+                    'finalPrice':
+                        (int.parse(widget.currentUser.finalPrice) - amount)
+                            .toString()
+                  });
                   setState(() {
                     _showSpinner = false;
                   });
