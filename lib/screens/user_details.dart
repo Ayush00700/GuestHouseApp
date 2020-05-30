@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guesthouseapp/models/users.dart';
+import 'package:guesthouseapp/widgets/add_new_admin.dart';
+import 'package:guesthouseapp/widgets/add_new_payment.dart';
 import 'package:guesthouseapp/widgets/dates_display.dart';
 
 class UserDetails extends StatelessWidget {
@@ -122,6 +124,11 @@ class UserDetails extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: Icon(Icons.attach_money, color: Theme.of(context).accentColor),
+          onPressed: () => showModalBottomSheet(
+              context: context, builder: (context) => AddNewPayment())),
     );
   }
 }
