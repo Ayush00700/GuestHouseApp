@@ -21,6 +21,7 @@ class FloorBuilder extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 11.0),
               child: Material(
+                color: Theme.of(context).primaryColor,
                 elevation: 5.0,
                 borderRadius: BorderRadius.circular(10.0),
                 child: Padding(

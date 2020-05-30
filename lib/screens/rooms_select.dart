@@ -71,7 +71,6 @@ class _RoomSelectionState extends State<RoomSelection> {
                                   int.parse(value);
                                   floorData.setRebate(value);
                                 } catch (e) {
-                                  print(e);
                                   globalKey.currentState.showSnackBar(
                                     SnackBar(
                                         content: Container(
